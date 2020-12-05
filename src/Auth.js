@@ -52,6 +52,25 @@ const Auth = ({ onLogin }) => {
     const decodedToken = jwtDecoder(token);
     console.log(decodedToken)
     const {nonce, sub, email, name, exp} = decodedToken;
+
+    SecureStore.getItemAsync(NONCE_KEY).then(storedNonce =>{
+      if(nonce == storedNonce){
+        // save token and login
+        SecureStore.setItemAsync(
+          ID_TOKEN_KEY,
+          JSON.stringify({
+            id: sub,
+            email,
+            name,
+            exp,
+            token
+          })
+        ).then(onLogin)
+      } else {
+        Alert.alert("Error", "Nonces don't match")
+        return;
+      }
+    })
   }
 
   return <Button title="Login" onPress={handleLoginPress}/>;
