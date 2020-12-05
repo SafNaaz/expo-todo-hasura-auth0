@@ -50,7 +50,6 @@ const Auth = ({ onLogin }) => {
 
   const decodeToken = token =>{
     const decodedToken = jwtDecoder(token);
-    console.log(decodedToken)
     const {nonce, sub, email, name, exp} = decodedToken;
 
     SecureStore.getItemAsync(NONCE_KEY).then(storedNonce =>{
