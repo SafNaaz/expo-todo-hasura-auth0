@@ -8,12 +8,15 @@ import { ID_TOKEN_KEY } from "./config"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
     SecureStore.getItemAsync(ID_TOKEN_KEY).then(session =>{
       if(session){
         const sessionObj = JSON.parse(session)
-        if(sessionObj.exp > Math.floor(new Date().getTime() / 1000)){
+        const { exp, token } = sessionObj
+        if(exp > Math.floor(new Date().getTime() / 1000)){
+          setToken(token)
           setIsLoggedIn(true)
         }
       }
@@ -22,7 +25,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {isLoggedIn && <Main />}
+      {isLoggedIn && <Main token={token}/>}
         <Auth
           isLoggedIn={isLoggedIn}
           onLogin={() => {
