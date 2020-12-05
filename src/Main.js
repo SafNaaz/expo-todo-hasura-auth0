@@ -18,7 +18,7 @@ const Main = ({token}) => {
         }
       })
     )
-  })
+  },[])
 
   if(!client){
     return(
@@ -38,8 +38,8 @@ const Main = ({token}) => {
 
 }
 
-Main.PropTypes = {
-  token: PropTypes.string
+Main.propTypes = {
+  token: PropTypes.string.isRequired
 }
 
 export default Main

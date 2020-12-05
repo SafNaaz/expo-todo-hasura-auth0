@@ -22,7 +22,7 @@ const generateNonce = async () => {
   return nonce;
 };
 
-const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
+const Auth = ({ token, onLogin, onLogout }) => {
   const handleLoginPress = async () => {
     const nonce = await generateNonce();
     AuthSession.startAsync({
@@ -76,7 +76,7 @@ const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
     SecureStore.deleteItemAsync(ID_TOKEN_KEY).then(onLogout)
   }
 
-  return isLoggedIn ? (
+  return token ? (
     <Button title="Logout" onPress={handleLogoutPress} />
   ) : (
     <Button title="Login" onPress={handleLoginPress} />
@@ -84,7 +84,7 @@ const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
 };
 
 Auth.propTypes = {
-  isLoggedIn: PropTypes.bool,
+  token: PropTypes.string,
   onLogin: PropTypes.func,
   onLogout: PropTypes.func,
 };
