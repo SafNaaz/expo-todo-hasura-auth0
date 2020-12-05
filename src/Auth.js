@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
 import { Button, Alert } from "react-native";
-import * as AuthSession from 'expo-auth-session';
+import * as AuthSession from "expo-auth-session";
 import * as Random from "expo-random";
 import * as SecureStore from "expo-secure-store";
 import jwtDecoder from "jwt-decode";
@@ -10,8 +10,8 @@ import {
   AUTH_CLIENT_ID,
   AUTH_DOMAIN,
   ID_TOKEN_KEY,
-  NONCE_KEY
-} from "../config"
+  NONCE_KEY,
+} from "../config";
 
 const generateNonce = async () => {
   const nonce = String.fromCharCode.apply(
@@ -20,9 +20,9 @@ const generateNonce = async () => {
   );
   await SecureStore.setItemAsync(NONCE_KEY, nonce);
   return nonce;
-}
+};
 
-const Auth = ({ onLogin }) => {
+const Auth = ({ isLoggedIn, onLogin, onLogout }) => {
   const handleLoginPress = async () => {
     const nonce = await generateNonce();
     AuthSession.startAsync({
@@ -32,10 +32,10 @@ const Auth = ({ onLogin }) => {
           client_id: AUTH_CLIENT_ID,
           response_type: "id_token",
           scope: "openid profile email",
-          redirect_uri: AuthSession.getDefaultReturnUrl('redirect'),
-          nonce
-        })
-    }).then(result => {
+          redirect_uri: AuthSession.getDefaultReturnUrl("redirect"),
+          nonce,
+        }),
+    }).then((result) => {
       if (result.type === "success") {
         decodeToken(result.params.id_token);
       } else if (result.params && result.params.error) {
@@ -48,12 +48,12 @@ const Auth = ({ onLogin }) => {
     });
   };
 
-  const decodeToken = token =>{
+  const decodeToken = (token) => {
     const decodedToken = jwtDecoder(token);
-    const {nonce, sub, email, name, exp} = decodedToken;
+    const { nonce, sub, email, name, exp } = decodedToken;
 
-    SecureStore.getItemAsync(NONCE_KEY).then(storedNonce =>{
-      if(nonce == storedNonce){
+    SecureStore.getItemAsync(NONCE_KEY).then((storedNonce) => {
+      if (nonce == storedNonce) {
         // save token and login
         SecureStore.setItemAsync(
           ID_TOKEN_KEY,
@@ -62,21 +62,31 @@ const Auth = ({ onLogin }) => {
             email,
             name,
             exp,
-            token
+            token,
           })
-        ).then(onLogin)
+        ).then(onLogin);
       } else {
-        Alert.alert("Error", "Nonces don't match")
+        Alert.alert("Error", "Nonces don't match");
         return;
       }
-    })
+    });
+  };
+
+  const handleLogoutPress = () =>{
+    SecureStore.deleteItemAsync(ID_TOKEN_KEY).then(onLogout)
   }
 
-  return <Button title="Login" onPress={handleLoginPress}/>;
-}
+  return isLoggedIn ? (
+    <Button title="Logout" onPress={handleLogoutPress} />
+  ) : (
+    <Button title="Login" onPress={handleLoginPress} />
+  );
+};
 
-Auth.propTypes ={
-    onLogin : PropTypes.func
-}
+Auth.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  onLogin: PropTypes.func,
+  onLogout: PropTypes.func,
+};
 
 export default Auth;

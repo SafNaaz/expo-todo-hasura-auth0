@@ -22,15 +22,17 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {isLoggedIn ? (
-        <Main />
-      ) : (
+      {isLoggedIn && <Main />}
         <Auth
+          isLoggedIn={isLoggedIn}
           onLogin={() => {
             setIsLoggedIn(true);
           }}
+          onLogout={() => {
+            setIsLoggedIn(false);
+          }}
         />
-      )}
+      
       <StatusBar style="auto" />
     </View>
   );
