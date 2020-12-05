@@ -9,12 +9,17 @@
   },
   "dependencies": {
     "expo": "~39.0.2",
+    "expo-random": "~9.0.0",
+    "expo-secure-store": "~9.2.0",
     "expo-status-bar": "~1.0.2",
+    "jwt-decode": "^3.1.2",
     "prop-types": "^15.7.2",
+    "query-string": "^6.13.7",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.13.12",
+    "expo-auth-session": "~2.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
