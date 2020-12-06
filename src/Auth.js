@@ -9,6 +9,7 @@ import queryString from "query-string";
 import {
   AUTH_CLIENT_ID,
   AUTH_DOMAIN,
+  AUTH_NAMESPACE,
   ID_TOKEN_KEY,
   NONCE_KEY,
 } from "../config";
@@ -64,7 +65,7 @@ const Auth = ({ token, onLogin, onLogout }) => {
             exp,
             token,
           })
-        ).then(onLogin);
+        ).then(() => onLogin(decodeToken[AUTH_NAMESPACE].isNewUser));
       } else {
         Alert.alert("Error", "Nonces don't match");
         return;

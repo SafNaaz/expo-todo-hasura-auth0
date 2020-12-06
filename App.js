@@ -8,18 +8,20 @@ import { ID_TOKEN_KEY } from "./config"
 
 export default function App() {
   const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     handleLogin()
   }, [])
 
-  const handleLogin = () =>{
+  const handleLogin = (isNewUser = false) =>{
     SecureStore.getItemAsync(ID_TOKEN_KEY).then(session =>{
       if(session){
         const sessionObj = JSON.parse(session)
-        const { exp, token } = sessionObj
+        const { exp, token, id, name } = sessionObj
         if(exp > Math.floor(new Date().getTime() / 1000)){
           setToken(token)
+          setUser({id, name, isNewUser})
         }
       }
     })
@@ -27,7 +29,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {token && <Main token={token}/>}
+      {token && user && <Main token={token} user={user}/>}
         <Auth
           token={token}
           onLogin={handleLogin}

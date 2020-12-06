@@ -5,7 +5,7 @@ import ApolloClient from "apollo-boost"
 import { StyleSheet, Text, View } from "react-native";
 import { GRAPHQL_ENDPOINT } from '../config'
 
-const Main = ({token}) => {
+const Main = ({token, user}) => {
 
   const [client, setClient] = useState(null)
 
@@ -31,7 +31,7 @@ const Main = ({token}) => {
   return (
     <ApolloProvider client={client}>
       <View>
-        <Text>Todo list</Text>
+        <Text>Welcome {user.name}</Text>
       </View>
     </ApolloProvider>
   )
@@ -39,7 +39,8 @@ const Main = ({token}) => {
 }
 
 Main.propTypes = {
-  token: PropTypes.string.isRequired
+  token: PropTypes.string.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default Main
