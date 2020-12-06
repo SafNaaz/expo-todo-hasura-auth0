@@ -22,10 +22,18 @@ export default function App() {
         if(exp > Math.floor(new Date().getTime() / 1000)){
           setToken(token)
           setUser({id, name, isNewUser})
+        }else{
+          handleLogout()
         }
       }
     })
   }
+
+  const handleLogout = () =>{
+    SecureStore.deleteItemAsync(ID_TOKEN_KEY)
+    setToken(null)
+  }
+
 
   return (
     <View style={styles.container}>
@@ -33,9 +41,7 @@ export default function App() {
         <Auth
           token={token}
           onLogin={handleLogin}
-          onLogout={() => {
-            setToken(null);
-          }}
+          onLogout={handleLogout}
         />
       
       <StatusBar style="auto" />
