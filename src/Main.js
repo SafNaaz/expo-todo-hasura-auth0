@@ -4,7 +4,7 @@ import { ApolloProvider } from "@apollo/react-hooks"
 import ApolloClient from "apollo-boost"
 import { StyleSheet, Text, View } from "react-native";
 import { GRAPHQL_ENDPOINT } from '../config'
-import {insertUsers} from '../data/mutations'
+import {INSERT_USER} from '../data/mutations'
 import TodoList from './TodoList'
 
 const Main = ({token, user}) => {
@@ -24,7 +24,7 @@ const Main = ({token, user}) => {
 
     if(isNewUser){
       client.mutate({
-        mutation: insertUsers,
+        mutation: INSERT_USER,
         variables: {id, name}
       })
     }
