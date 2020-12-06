@@ -5,6 +5,7 @@ import ApolloClient from "apollo-boost"
 import { StyleSheet, Text, View } from "react-native";
 import { GRAPHQL_ENDPOINT } from '../config'
 import {insertUsers} from '../data/mutations'
+import TodoList from './TodoList'
 
 const Main = ({token, user}) => {
 
@@ -42,7 +43,8 @@ const Main = ({token, user}) => {
   return (
     <ApolloProvider client={client}>
       <View>
-        <Text>Welcome {user.name}</Text>
+        {/* <Text>Welcome {user.name}</Text> */}
+        <TodoList/>
       </View>
     </ApolloProvider>
   )
