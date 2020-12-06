@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import {INSERT_TODO} from '../data/mutations'
+import { GET_TODOS } from '../data/queries'
 
 const AddTodo = () => {
     const [text, setText] = useState("")
@@ -15,7 +16,8 @@ const AddTodo = () => {
                 style={styles.button}
                 onPress={()=>{
                     insertTodo({
-                        variables: {text}
+                        variables: {text},
+                        refetchQueries: [{query: GET_TODOS}]
                     })
                     setText('')
                 }}
