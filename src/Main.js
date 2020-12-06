@@ -2,7 +2,7 @@ import React, {useState, useEffect } from "react";
 import PropTypes from "prop-types"
 import { ApolloProvider } from "@apollo/react-hooks"
 import ApolloClient from "apollo-boost"
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { GRAPHQL_ENDPOINT } from '../config'
 import {INSERT_USER} from '../data/mutations'
 import TodoList from './TodoList'
@@ -33,11 +33,7 @@ const Main = ({token, user}) => {
   },[])
 
   if(!client){
-    return(
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    )
+    return <ActivityIndicator size="large" color="#0000ff" />
   }
 
   return (
