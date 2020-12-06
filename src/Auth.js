@@ -65,7 +65,7 @@ const Auth = ({ token, onLogin, onLogout }) => {
             exp,
             token,
           })
-        ).then(() => onLogin(decodeToken[AUTH_NAMESPACE].isNewUser));
+        ).then(() => onLogin(decodedToken[AUTH_NAMESPACE].isNewUser));
       } else {
         Alert.alert("Error", "Nonces don't match");
         return;

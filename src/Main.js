@@ -4,20 +4,31 @@ import { ApolloProvider } from "@apollo/react-hooks"
 import ApolloClient from "apollo-boost"
 import { StyleSheet, Text, View } from "react-native";
 import { GRAPHQL_ENDPOINT } from '../config'
+import {insertUsers} from '../data/mutations'
 
 const Main = ({token, user}) => {
 
   const [client, setClient] = useState(null)
 
   useEffect(()=>{
-    setClient(
-      new ApolloClient({
+
+    const {id, name, isNewUser} = user
+
+    const client = new ApolloClient({
         uri: GRAPHQL_ENDPOINT,
         headers:{
           Authorization: `Bearer ${token}`
         }
       })
-    )
+
+    if(isNewUser){
+      client.mutate({
+        mutation: insertUsers,
+        variables: {id, name}
+      })
+    }
+
+    setClient(client)
   },[])
 
   if(!client){
