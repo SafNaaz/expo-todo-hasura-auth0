@@ -10,7 +10,7 @@ import {
 import TodoItem from "./TodoItem";
 import { GET_TODOS } from "../data/queries";
 
-const TodoList = ({ item }) => {
+const TodoList = () => {
   const { loading, error, data } = useQuery(GET_TODOS);
 
   if (error) return <Text>`Error! ${error.message}`</Text>;
