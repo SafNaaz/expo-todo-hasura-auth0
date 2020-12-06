@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import { GRAPHQL_ENDPOINT } from '../config'
 import {INSERT_USER} from '../data/mutations'
 import TodoList from './TodoList'
+import AddTodo from "./AddTodo";
 
 const Main = ({token, user}) => {
 
@@ -40,6 +41,7 @@ const Main = ({token, user}) => {
     <ApolloProvider client={client}>
       <View>
         {/* <Text>Welcome {user.name}</Text> */}
+        <AddTodo/>
         <TodoList/>
       </View>
     </ApolloProvider>

@@ -7,3 +7,15 @@ export const INSERT_USER = gql`
         }
     }
 `
+
+export const INSERT_TODO = gql`
+    mutation($text: String){
+        insert_todos(objects: {text: $text}){
+            returning{
+                id
+                text
+                is_completed
+            }
+        }
+    }
+`
