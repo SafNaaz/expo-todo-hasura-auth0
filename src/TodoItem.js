@@ -22,7 +22,7 @@ const TodoItem = ({ item }) => {
   return (
     <View style={styles.container}>
       <Text
-        style={[styles.mark, is_completed ? styles.completed : {}]}
+        style={[styles.mark, is_completed ? styles.completed : styles.pending]}
         onPress={() => {
           if (!updateLoading) {
             updateTodo({
@@ -33,7 +33,7 @@ const TodoItem = ({ item }) => {
       >
         {is_completed ? "☑" : "☒"}
       </Text>
-      <Text style={[styles.item, is_completed ? styles.completed : {}]}>
+      <Text style={[styles.item, is_completed ? styles.completed : styles.pending]}>
         {text}
       </Text>
       <TouchableOpacity
@@ -79,6 +79,9 @@ const styles = StyleSheet.create({
   },
   completed: {
     color: "lightgray"
+  },
+  pending:{
+    color:"black"
   }
 });
 
