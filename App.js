@@ -4,46 +4,44 @@ import { StyleSheet, Text, View } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import Auth from "./src/Auth";
 import Main from "./src/Main";
-import { ID_TOKEN_KEY } from "./config"
+import { ID_TOKEN_KEY } from "./config";
 
 export default function App() {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    handleLogin()
-  }, [])
+    handleLogin();
+  }, []);
 
-  const handleLogin = (isNewUser = false) =>{
-    SecureStore.getItemAsync(ID_TOKEN_KEY).then(session =>{
-      if(session){
-        const sessionObj = JSON.parse(session)
-        const { exp, token, id, name } = sessionObj
-        if(exp > Math.floor(new Date().getTime() / 1000)){
-          setToken(token)
-          setUser({id, name, isNewUser})
-        }else{
-          handleLogout()
+  const handleLogin = (isNewUser = false) => {
+    SecureStore.getItemAsync(ID_TOKEN_KEY).then((session) => {
+      if (session) {
+        const sessionObj = JSON.parse(session);
+        const { exp, token, id, name } = sessionObj;
+        if (exp > Math.floor(new Date().getTime() / 1000)) {
+          setToken(token);
+          setUser({ id, name, isNewUser });
+        } else {
+          handleLogout();
         }
       }
-    })
-  }
+    });
+  };
 
-  const handleLogout = () =>{
-    SecureStore.deleteItemAsync(ID_TOKEN_KEY)
-    setToken(null)
-  }
-
+  const handleLogout = () => {
+    SecureStore.deleteItemAsync(ID_TOKEN_KEY);
+    setToken(null);
+  };
 
   return (
     <View style={styles.container}>
-      {token && user && <Main token={token} user={user}/>}
-        <Auth
-          token={token}
-          onLogin={handleLogin}
-          onLogout={handleLogout}
-        />
-      
+      <View style={styles.nameContainer}>
+        {token && user && <Text style={styles.name}>Welcome {user.name}</Text>}
+        <Auth token={token} onLogin={handleLogin} onLogout={handleLogout} />
+      </View>
+      {token && user && <Main token={token} user={user} />}
+
       <StatusBar style="auto" />
     </View>
   );
@@ -56,4 +54,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  nameContainer:{
+    margin:20,
+    flexDirection:"row",
+  },
+  name:{
+    margin: 10
+  }
 });
